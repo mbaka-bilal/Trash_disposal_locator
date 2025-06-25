@@ -2,22 +2,24 @@
 Created by: Mbaka bilal <mbakabilal.t@gmail.com>
 Created on: 24,June,2025
 Updated by: Mbaka bilal <mbakabilal.t@gmail.com>
-Updated on: 24,June,2025
+Updated on: 25,June,2025
 */
 
 import 'package:flutter/material.dart';
 
+import '../../../core/constants/constants.dart';
 import '../../../core/constants/strings.dart';
 import '../../../core/helpers/helpers.dart';
 import '../../../core/styling/colors.dart';
 import '../../../core/styling/images.dart';
 import '../../../core/styling/text_style.dart';
 import '../../widgets/app_text_field.dart';
+import '../../widgets/copyright.dart';
 import '../../widgets/media/image_view.dart';
 
 class SplashScreen extends StatelessWidget {
-  static const routeName = '/';
-  static const path = routeName;
+  static const routeName = '/splash';
+  static const path = "/";
 
   const SplashScreen({super.key});
 
@@ -25,23 +27,40 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AppHelpers.wrapChildWithLayoutBuilder(
-        padding: AppHelpers.defaultPadding(bottom: 10),
+        padding: AppHelpers.defaultPadding(bottom: 30),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 100),
+            Row(children: [
+                
+              ],
+            ),
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ImageView(image: AppImages.logo),
+              child: Center(
+                child: ImageView(
+                  image: AppImages.logo,
+                  width: 100,
+                  height: 100,
+                ),
+              ),
             ),
 
-            AppTextField(
-              text: AppStrings.appName,
-              textStyle: AppTextStyle(
-                context: context,
-                color: AppColors.white,
-              ).fw900(),
+            Column(
+              children: [
+                AppTextField(
+                  text: AppStrings.appName,
+                  textStyle: AppTextStyle(
+                    context: context,
+                    color: AppColors.white,
+                    fontSize: 30,
+                  ).fw900(),
+                ),
+                AppConstants.smallYSpace,
+                Copyright(),
+              ],
             ),
           ],
         ),

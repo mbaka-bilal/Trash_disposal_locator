@@ -8,6 +8,10 @@ Description: This screen routing error
 
 import 'package:flutter/material.dart';
 
+import '../core/styling/colors.dart';
+import '../core/styling/text_style.dart';
+import 'widgets/app_text_field.dart';
+
 class ErrorScreen extends StatelessWidget {
   static const routeName = '/error';
   static const path = routeName;
@@ -16,6 +20,16 @@ class ErrorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('Error')));
+    return Scaffold(
+      body: Center(
+        child: AppTextField(
+          text: 'Error',
+          textStyle: AppTextStyle(
+            context: context,
+            color: AppColors.white,
+          ).fw900(),
+        ),
+      ),
+    );
   }
 }
