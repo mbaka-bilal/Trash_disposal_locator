@@ -6,6 +6,7 @@ Updated on: 24,June,2025
 */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/constants/strings.dart';
 import 'core/routes/routes.dart';
@@ -17,10 +18,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: AppStrings.appName,
-      theme: AppTheme.lightTheme,
-      routerConfig: routes,
+    return ProviderScope(
+      child: MaterialApp.router(
+        title: AppStrings.appName,
+        theme: AppTheme.lightTheme,
+        routerConfig: routes,
+      ),
     );
   }
 }

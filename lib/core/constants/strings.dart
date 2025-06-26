@@ -12,4 +12,16 @@ class AppStrings {
   static const copyAsYouPlease = "Copy as you please";
 
   static const mapbox = 'Mapbox';
+
+  //Error messages
+  static const lastKnownLocationError =
+      "Error occurred fetching your last known location";
+  static const currentLocationError = "Error occurred fetching your location";
+  static const locationPermissionError =
+      "Error checking location permission status";
+  static const permissionError = "Permission error";
+
+  static const allow = "Allow";
+  static const needsYouLocationToPerformAsExpected =
+      "needs your location to perform as expected";
 }

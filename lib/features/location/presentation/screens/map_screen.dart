@@ -12,7 +12,6 @@ import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_ti
 import 'package:latlong2/latlong.dart';
 import 'package:myapp/core/extensions/integer_extensions.dart';
 
-import '../../../../core/constants/constants.dart';
 import '../../../../core/constants/strings.dart';
 import '../../../../core/helpers/helpers.dart';
 import '../../../../core/styling/colors.dart';
@@ -73,6 +72,7 @@ class _MapScreenState extends State<MapScreen> {
                       textStyle: AppTextStyle(
                         context: context,
                         fontSize: 12,
+                        color: AppColors.black,
                       ).fw700(),
                     ),
                   ],

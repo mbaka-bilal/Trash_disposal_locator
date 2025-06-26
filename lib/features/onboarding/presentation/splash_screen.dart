@@ -6,6 +6,7 @@ Updated on: 25,June,2025
 */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/constants/constants.dart';
 import '../../../core/constants/strings.dart';
@@ -14,32 +15,42 @@ import '../../../core/services/navigation_service.dart';
 import '../../../core/styling/colors.dart';
 import '../../../core/styling/images.dart';
 import '../../../core/styling/text_style.dart';
+import '../../../view_models.dart';
 import '../../location/presentation/screens/map_screen.dart';
 import '../../widgets/app_text_field.dart';
 import '../../widgets/copyright.dart';
 import '../../widgets/media/image_view.dart';
+import 'location_permission_requirement.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   static const routeName = '/splash';
   static const path = "/";
 
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
-      if (mounted) {
-        NavigationService.jumpToScreen(
-          context: context,
-          routeName: MapScreen.routeName,
-        );
-      }
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final isPermissionGranted = await ref
+          .read(locationViewModel.notifier)
+          .isPermissionGranted();
+
+      Future.delayed(const Duration(seconds: 3), () async {
+        if (mounted) {
+          NavigationService.jumpToScreen(
+            context: context,
+            routeName: isPermissionGranted
+                ? MapScreen.routeName
+                : LocationPermissionRequirementScreen.routeName,
+          );
+        }
+      });
     });
   }
 

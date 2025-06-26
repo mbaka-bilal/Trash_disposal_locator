@@ -5,7 +5,7 @@ Updated by: Mbaka bilal <mbakabilal.t@gmail.com>
 Updated on: 24,June,2025
 */
 
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/styling/colors.dart';
@@ -39,35 +39,53 @@ class PlainButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     assert(
-        child != null || text != null, "Either child or text must be non-null");
+      child != null || text != null,
+      "Either child or text must be non-null",
+    );
 
     return ElevatedButton(
-        onPressed: onTap,
-        style: ButtonStyle(
-          shape: borderRadius != null
-              ? WidgetStateProperty.all(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)))
-              : null,
-          backgroundColor:
-              WidgetStateProperty.resolveWith((Set<WidgetState> state) {
-            if (state.contains(WidgetState.disabled)) {
-              return disabledColor;
-            }
+      onPressed: onTap == null
+          ? null
+          : () {
+              if (isLoading) {
+                return;
+              }
 
-            return backgroundColor;
-          }),
-          fixedSize: width != null && height != null
-              ? WidgetStateProperty.all(Size(width!, height!))
-              : null,
-        ),
-        child: Center(
-          child: child ??
-              AppTextField(
-                text: text!,
-                textStyle: AppTextStyle(
-                        context: context, fontSize: 16, color: AppColors.white)
-                    .fw900(),
-              ),
-        ));
+              onTap!();
+            },
+      style: ButtonStyle(
+        shape: borderRadius != null
+            ? WidgetStateProperty.all(
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              )
+            : null,
+        backgroundColor: WidgetStateProperty.resolveWith((
+          Set<WidgetState> state,
+        ) {
+          if (state.contains(WidgetState.disabled)) {
+            return disabledColor;
+          }
+
+          return backgroundColor;
+        }),
+        fixedSize: width != null && height != null
+            ? WidgetStateProperty.all(Size(width!, height!))
+            : null,
+      ),
+      child: isLoading
+          ? const CupertinoActivityIndicator(color: AppColors.white)
+          : Center(
+              child:
+                  child ??
+                  AppTextField(
+                    text: text!,
+                    textStyle: AppTextStyle(
+                      context: context,
+                      fontSize: 16,
+                      color: AppColors.white,
+                    ).fw900(),
+                  ),
+            ),
+    );
   }
 }

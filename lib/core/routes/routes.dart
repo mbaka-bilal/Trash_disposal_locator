@@ -2,14 +2,15 @@
 Created by: Mbaka bilal <mbakabilal.t@gmail.com>
 Created on: 24,June,2025
 Updated by: Mbaka bilal <mbakabilal.t@gmail.com>
-Updated on: 24,June,2025
+Updated on: 26,June,2025
 */
 
 import 'package:go_router/go_router.dart';
 
 import '../../features/error_screen.dart';
 import '../../features/location/presentation/screens/map_screen.dart';
-import '../../features/splash/presentation/splash_screen.dart';
+import '../../features/onboarding/presentation/location_permission_requirement.dart';
+import '../../features/onboarding/presentation/splash_screen.dart';
 import '../constants/constants.dart';
 
 final publicRoutes = <GoRoute>[
@@ -18,6 +19,13 @@ final publicRoutes = <GoRoute>[
     name: SplashScreen.routeName,
     builder: (context, routeState) {
       return const SplashScreen();
+    },
+  ),
+  GoRoute(
+    path: LocationPermissionRequirementScreen.path,
+    name: LocationPermissionRequirementScreen.routeName,
+    builder: (context, routeState) {
+      return const LocationPermissionRequirementScreen();
     },
   ),
   GoRoute(

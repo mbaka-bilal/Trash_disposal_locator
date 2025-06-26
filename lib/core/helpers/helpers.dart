@@ -1,7 +1,17 @@
-import 'dart:io';
+/*
+Created by: Mbaka bilal <mbakabilal.t@gmail.com>
+Created on: 26,June,2025
+Updated by: Mbaka bilal <mbakabilal.t@gmail.com>
+Updated on: 26,June,2025
+*/
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+
+import '../../features/widgets/dialogs/error_dialog.dart';
+import '../basestate.dart';
+import 'dialog_helpers.dart';
 
 class AppHelpers {
   static EdgeInsets defaultPadding({
@@ -37,5 +47,37 @@ class AppHelpers {
         );
       },
     );
+  }
+
+  static printToLog({required String message, bool isError = false}) {
+    final logger = Logger();
+
+    if (isError) {
+      logger.e(message);
+    } else {
+      logger.d(message);
+    }
+  }
+
+  static handleState({
+    required BaseState status,
+    required String title,
+    required BuildContext context,
+    required Function() onSuccess,
+    String? errorMessage,
+  }) {
+    if (status.isError) {
+      DialogHelpers.showAppDialog(
+        context: context,
+        child: ErrorDialog(
+          title: title,
+          errorMessage: errorMessage ?? status.errorMessage!,
+        ),
+      );
+    }
+
+    if (status.isSuccess) {
+      onSuccess();
+    }
   }
 }
