@@ -10,18 +10,38 @@ import 'package:flutter/material.dart';
 import '../../../core/constants/constants.dart';
 import '../../../core/constants/strings.dart';
 import '../../../core/helpers/helpers.dart';
+import '../../../core/services/navigation_service.dart';
 import '../../../core/styling/colors.dart';
 import '../../../core/styling/images.dart';
 import '../../../core/styling/text_style.dart';
+import '../../location/presentation/screens/map_screen.dart';
 import '../../widgets/app_text_field.dart';
 import '../../widgets/copyright.dart';
 import '../../widgets/media/image_view.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   static const routeName = '/splash';
   static const path = "/";
 
   const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 3), () {
+      if (mounted) {
+        NavigationService.jumpToScreen(
+          context: context,
+          routeName: MapScreen.routeName,
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,19 @@
+/*
+Created by: Mbaka bilal <mbakabilal.t@gmail.com>
+Created on: 23,June,2025
+Updated by: Mbaka bilal <mbakabilal.t@gmail.com>
+Updated on: 26,June,2025
+Description: Map screen
+*/
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
+import 'package:latlong2/latlong.dart';
 
+import '../../../../core/constants/strings.dart';
 import '../../../../keys.dart';
+import '../widgets/map_zoom._button.dart';
 
 class MapScreen extends StatefulWidget {
   static const routeName = '/map';
@@ -14,12 +26,58 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  final MapController _mapController = MapController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _mapController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          _map(),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: MapZoomButton(mapController: _mapController),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _map() {
     return FlutterMap(
-      mapController: MapController(),
-      options: MapOptions(),
-      children: [TileLayer(urlTemplate: mapBoxTileUrl)],
+      mapController: _mapController,
+      options: MapOptions(
+        initialCenter: const LatLng(6.6018, 3.3515),
+        initialZoom: 13.0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      ),
+      children: [
+        TileLayer(
+          urlTemplate: mapBoxTileUrl,
+          tileProvider: CancellableNetworkTileProvider(),
+        ),
+        RichAttributionWidget(
+          attributions: [
+            TextSourceAttribution(
+              AppStrings.mapbox,
+              onTap: () => {
+                //TODO open map box website
+              },
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
