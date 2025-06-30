@@ -10,7 +10,8 @@ import 'package:flutter_web_plugins/url_strategy.dart';
 
 import 'app.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   setUrlStrategy(PathUrlStrategy());
 
   runApp(const MyApp());

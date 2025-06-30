@@ -9,3 +9,16 @@ class LocationException implements Exception {
     return message ?? exception.toString();
   }
 }
+
+
+class ApiException implements Exception {
+  const ApiException({required this.message});
+
+  final String message;
+
+  @override
+  String toString() {
+    return message;
+  }
+}
+

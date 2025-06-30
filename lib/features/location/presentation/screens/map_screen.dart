@@ -116,34 +116,53 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       builder: (context, ref, child) {
         final location = ref.watch(locationViewModel).data;
 
-        return FlutterMap(
-          mapController: _mapController,
-          options: MapOptions(
-            initialCenter: const LatLng(6.6018, 3.3515),
-            initialZoom: 13.0,
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          ),
+        return Stack(
           children: [
-            TileLayer(
-              urlTemplate: mapBoxTileUrl,
-              tileProvider: CancellableNetworkTileProvider(),
-            ),
-            MarkerLayer(
-              markers: [
-                if (location != null)
-                  Marker(
-                    point: LatLng(location.latitude, location.longitude),
-                    child: ImageView(image: AppImages.circle),
-                  ),
-              ],
-            ),
-            RichAttributionWidget(
-              attributions: [
-                TextSourceAttribution(
-                  AppStrings.mapbox,
-                  onTap: () => {
-                    //TODO open map box website
-                  },
+            
+            
+            FlutterMap(
+              mapController: _mapController,
+              options: MapOptions(
+                initialCenter: const LatLng(6.6018, 3.3515),
+                initialZoom: 13.0,
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              ),
+              children: [
+                TileLayer(
+                  urlTemplate: mapBoxTileUrl,
+                  tileProvider: CancellableNetworkTileProvider(),
+                ),
+                MarkerLayer(
+                  markers: [
+                    if (location != null)
+                      Marker(
+                        point: LatLng(location.latitude, location.longitude),
+                        child: ImageView(image: AppImages.circle),
+                      ),
+
+                    Marker(
+                      point: LatLng(37.402028430433006, -122.08267800434588),
+                      child: ImageView(
+                        image: AppImages.garbage,
+                        width: 50,
+                        height: 50,
+                      ),
+                    ),
+                    Marker(
+                      point: LatLng(37.401768481124776, -122.08434097378374),
+                      child: ImageView(image: AppImages.garbage),
+                    ),
+                  ],
+                ),
+                RichAttributionWidget(
+                  attributions: [
+                    TextSourceAttribution(
+                      AppStrings.mapbox,
+                      onTap: () => {
+                        //TODO open map box website
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),

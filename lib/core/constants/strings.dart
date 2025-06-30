@@ -20,6 +20,8 @@ class AppStrings {
   static const locationPermissionError =
       "Error checking location permission status";
   static const permissionError = "Permission error";
+  static const somethingWentWrong = "Something went wrong";
+  static const connectionTimeout = "Connection timeout";
 
   static const allow = "Allow";
   static const needsYouLocationToPerformAsExpected =

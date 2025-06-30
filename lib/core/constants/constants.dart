@@ -23,4 +23,9 @@ class AppConstants {
   //keys
   static final rootNavigatorKey = GlobalKey<NavigatorState>();
   static const restorationScopeId = 'router';
+
+  static const devBaseUrl = "http://localhost:5000/api";
+  static const remoteBaseUrl = "https://render.con/api";
+
+  static const trashDisposalLocationsCacheKey = 'trash_disposal_locations';
 }
