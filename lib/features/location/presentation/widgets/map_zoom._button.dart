@@ -6,33 +6,61 @@ Updated on: 26,June,2025
 Description: Map screen
 */
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/constants/constants.dart';
+import '../../../../core/helpers/map_helpers.dart';
 import '../../../../core/styling/colors.dart';
+import '../../../../view_models.dart';
 
-class MapZoomButton extends StatelessWidget {
+class MapZoomButton extends ConsumerWidget {
   const MapZoomButton({super.key, required this.mapController});
 
   final MapController mapController;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return IntrinsicWidth(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            margin: EdgeInsets.only(right: 15),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              shape: BoxShape.circle,
-            ),
-            padding: EdgeInsets.all(8),
-            child: Icon(Icons.my_location, size: 15),
+          Consumer(
+            builder: (context, state, child) {
+              final isLoading = ref.watch(locationViewModel).isLoading;
+
+              return GestureDetector(
+                onTap: () {
+                  if (isLoading) return;
+
+                  ref.read(locationViewModel.notifier).getCurrentLocation((
+                    double latitude,
+                    double longitude,
+                  ) {
+                    MapHelpers.moveCameraToLocation(
+                      mapController,
+                      latitude,
+                      longitude,
+                    );
+                  });
+                },
+                child: Container(
+                  margin: EdgeInsets.only(right: 15),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  padding: EdgeInsets.all(8),
+                  child: isLoading
+                      ? const CupertinoActivityIndicator(color: AppColors.black)
+                      : Icon(Icons.my_location, size: 15),
+                ),
+              );
+            },
           ),
           AppConstants.smallYSpace,
 
@@ -66,6 +94,12 @@ class MapZoomButton extends StatelessWidget {
         : mapController.camera.zoom - 1;
 
     final position = mapController.camera.focusedZoomCenter(Offset.zero, zoom);
-    mapController.move(position, zoom);
+
+    MapHelpers.moveCameraToLocation(
+      mapController,
+      position.latitude,
+      position.longitude,
+      zoom: zoom,
+    );
   }
 }

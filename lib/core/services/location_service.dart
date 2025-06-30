@@ -46,9 +46,7 @@ class LocationService {
       return status == LocationPermission.always ||
           status == LocationPermission.whileInUse;
     } catch (e) {
-      final message = AppStrings.locationPermissionError;
-
-      throw LocationException(e, message: message);
+      return false;
     }
   }
 

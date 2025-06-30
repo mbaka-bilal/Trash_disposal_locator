@@ -2,7 +2,7 @@
 Created by: Mbaka bilal <mbakabilal.t@gmail.com>
 Created on: 24,June,2025
 Updated by: Mbaka bilal <mbakabilal.t@gmail.com>
-Updated on: 25,June,2025
+Updated on: 30,June,2025
 */
 
 import 'package:flutter/material.dart';
@@ -37,20 +37,25 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final isPermissionGranted = await ref
-          .read(locationViewModel.notifier)
-          .isPermissionGranted();
+      // final isPermissionGranted = await ref
+      //     .read(locationViewModel.notifier)
+      //     .isPermissionGranted();
 
-      Future.delayed(const Duration(seconds: 3), () async {
-        if (mounted) {
-          NavigationService.jumpToScreen(
-            context: context,
-            routeName: isPermissionGranted
-                ? MapScreen.routeName
-                : LocationPermissionRequirementScreen.routeName,
-          );
-        }
-      });
+      // Future.delayed(const Duration(seconds: 3), () async {
+      //   if (mounted) {
+      //     NavigationService.jumpToScreen(
+      //       context: context,
+      //       routeName: isPermissionGranted
+      //           ? MapScreen.routeName
+      //           : LocationPermissionRequirementScreen.routeName,
+      //     );
+      //   }
+      // });
+
+      NavigationService.jumpToScreen(
+        context: context,
+        routeName: MapScreen.routeName,
+      );
     });
   }
 

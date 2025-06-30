@@ -2,40 +2,57 @@
 Created by: Mbaka bilal <mbakabilal.t@gmail.com>
 Created on: 23,June,2025
 Updated by: Mbaka bilal <mbakabilal.t@gmail.com>
-Updated on: 26,June,2025
+Updated on: 30,June,2025
 Description: Map screen
 */
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:myapp/core/extensions/integer_extensions.dart';
 
 import '../../../../core/constants/strings.dart';
 import '../../../../core/helpers/helpers.dart';
+import '../../../../core/helpers/map_helpers.dart';
 import '../../../../core/styling/colors.dart';
+import '../../../../core/styling/images.dart';
 import '../../../../core/styling/text_style.dart';
 import '../../../../keys.dart';
+import '../../../../view_models.dart';
 import '../../../widgets/app_text_field.dart';
+import '../../../widgets/media/image_view.dart';
 import '../widgets/map_zoom._button.dart';
 
-class MapScreen extends StatefulWidget {
+class MapScreen extends ConsumerStatefulWidget {
   static const routeName = '/map';
   static const path = routeName;
 
   const MapScreen({super.key});
 
   @override
-  State<MapScreen> createState() => _MapScreenState();
+  ConsumerState<MapScreen> createState() => _MapScreenState();
 }
 
-class _MapScreenState extends State<MapScreen> {
+class _MapScreenState extends ConsumerState<MapScreen> {
   final MapController _mapController = MapController();
+
+  bool _moveCameraToLocation = true;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(locationViewModel.notifier).requestPermission();
+
+      ref.read(locationViewModel.notifier).getCurrentLocation((
+        double latitude,
+        double longitude,
+      ) {
+        MapHelpers.moveCameraToLocation(_mapController, latitude, longitude);
+      });
+    });
   }
 
   @override
@@ -46,6 +63,12 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(locationViewModel, (previous, next) {
+      if (previous?.data?.latitude != next.data?.latitude &&
+          previous?.data?.longitude != next.data?.longitude &&
+          _moveCameraToLocation) {}
+    });
+
     return Scaffold(
       body: Stack(
         children: [
@@ -89,29 +112,44 @@ class _MapScreenState extends State<MapScreen> {
   }
 
   Widget _map() {
-    return FlutterMap(
-      mapController: _mapController,
-      options: MapOptions(
-        initialCenter: const LatLng(6.6018, 3.3515),
-        initialZoom: 13.0,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      ),
-      children: [
-        TileLayer(
-          urlTemplate: mapBoxTileUrl,
-          tileProvider: CancellableNetworkTileProvider(),
-        ),
-        RichAttributionWidget(
-          attributions: [
-            TextSourceAttribution(
-              AppStrings.mapbox,
-              onTap: () => {
-                //TODO open map box website
-              },
+    return Consumer(
+      builder: (context, ref, child) {
+        final location = ref.watch(locationViewModel).data;
+
+        return FlutterMap(
+          mapController: _mapController,
+          options: MapOptions(
+            initialCenter: const LatLng(6.6018, 3.3515),
+            initialZoom: 13.0,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          ),
+          children: [
+            TileLayer(
+              urlTemplate: mapBoxTileUrl,
+              tileProvider: CancellableNetworkTileProvider(),
+            ),
+            MarkerLayer(
+              markers: [
+                if (location != null)
+                  Marker(
+                    point: LatLng(location.latitude, location.longitude),
+                    child: ImageView(image: AppImages.circle),
+                  ),
+              ],
+            ),
+            RichAttributionWidget(
+              attributions: [
+                TextSourceAttribution(
+                  AppStrings.mapbox,
+                  onTap: () => {
+                    //TODO open map box website
+                  },
+                ),
+              ],
             ),
           ],
-        ),
-      ],
+        );
+      },
     );
   }
 }

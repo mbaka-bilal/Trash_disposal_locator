@@ -8,6 +8,8 @@ getting user location, permission e.t.c
 The location defaults to ikeja, lagos state, nigeria
 */
 
+import 'dart:ui';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/basestate.dart';
@@ -51,5 +53,24 @@ class LocationViewModel extends Notifier<LocationState> {
   Future<bool> isPermissionGranted() async {
     final status = await locationService.isPermissionGranted();
     return status;
+  }
+
+  Future<void> getCurrentLocation(
+    Function(double latitude, double longitude) onSuccess,
+  ) async {
+    try {
+      state = LocationState.loading(data: state.data);
+
+      final location = await locationService.getCurrentLocation();
+      if (location != null) {
+        state = LocationState.success(
+          Loc(latitude: location.latitude, longitude: location.longitude),
+        );
+
+        onSuccess(location.latitude, location.longitude);
+      }
+    } catch (e) {
+      //Do nothing
+    }
   }
 }

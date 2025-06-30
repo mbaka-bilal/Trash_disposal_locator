@@ -12,4 +12,5 @@ class AppImages {
   static final locationGif = "gps_tracker".gif;
   static final locationPermission = "location_permission".lottie;
   static final error = "error".lottie;
+  static final circle = "circle".lottie;
 }
