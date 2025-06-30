@@ -11,7 +11,7 @@ class DisposalLocationRemoteDataSource {
 
   Future<TrashDisposalLocationsState> fetchTrashDisposalLocations() async {
     try {
-      final response = await _apiService.get('/trash-disposal-locations');
+      final response = await _apiService.get('/disposal-locations');
 
       final responseModel = ResponseModel.fromJson(response.data);
 

@@ -23,6 +23,7 @@ import '../../../../keys.dart';
 import '../../../../view_models.dart';
 import '../../../widgets/app_text_field.dart';
 import '../../../widgets/media/image_view.dart';
+import '../../data/models/trash_disposal_locations_model.dart';
 import '../widgets/map_zoom._button.dart';
 
 class MapScreen extends ConsumerStatefulWidget {
@@ -115,11 +116,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     return Consumer(
       builder: (context, ref, child) {
         final location = ref.watch(locationViewModel).data;
+        final trashLocationsState = ref.watch(trashDisposalLocationsViewModel);
+        final trashLocations = trashLocationsState.data ?? <DisposalLocation>[];
 
         return Stack(
           children: [
-            
-            
             FlutterMap(
               mapController: _mapController,
               options: MapOptions(
@@ -140,17 +141,15 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                         child: ImageView(image: AppImages.circle),
                       ),
 
-                    Marker(
-                      point: LatLng(37.402028430433006, -122.08267800434588),
-                      child: ImageView(
-                        image: AppImages.garbage,
-                        width: 50,
-                        height: 50,
+                    ...trashLocations.map(
+                      (e) => Marker(
+                        point: LatLng(e.location!.lat!, e.location!.lng!),
+                        child: ImageView(
+                          image: AppImages.garbage,
+                          width: 50,
+                          height: 50,
+                        ),
                       ),
-                    ),
-                    Marker(
-                      point: LatLng(37.401768481124776, -122.08434097378374),
-                      child: ImageView(image: AppImages.garbage),
                     ),
                   ],
                 ),
@@ -166,6 +165,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 ),
               ],
             ),
+            if (trashLocationsState.isLoading)
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: LinearProgressIndicator(
+                  color: AppColors.ladingPageGradientBlue,
+                ),
+              ),
           ],
         );
       },

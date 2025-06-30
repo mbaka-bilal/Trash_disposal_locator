@@ -12,7 +12,7 @@ class ApiService {
     _dio.options.receiveTimeout = const Duration(seconds: 20);
     _dio.options.headers = {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      'Accept': 'application/json', 
     };
 
     //TODO: add interceptors

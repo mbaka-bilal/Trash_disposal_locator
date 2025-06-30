@@ -20,7 +20,6 @@ import '../../location/presentation/screens/map_screen.dart';
 import '../../widgets/app_text_field.dart';
 import '../../widgets/copyright.dart';
 import '../../widgets/media/image_view.dart';
-import 'location_permission_requirement.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   static const routeName = '/splash';
@@ -37,25 +36,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      // final isPermissionGranted = await ref
-      //     .read(locationViewModel.notifier)
-      //     .isPermissionGranted();
+      await ref.read(trashDisposalLocationsViewModel.notifier).fetchLocations();
 
-      // Future.delayed(const Duration(seconds: 3), () async {
-      //   if (mounted) {
-      //     NavigationService.jumpToScreen(
-      //       context: context,
-      //       routeName: isPermissionGranted
-      //           ? MapScreen.routeName
-      //           : LocationPermissionRequirementScreen.routeName,
-      //     );
-      //   }
-      // });
-
-      NavigationService.jumpToScreen(
-        context: context,
-        routeName: MapScreen.routeName,
-      );
+      Future.delayed(const Duration(seconds: 3), () async {
+        if (mounted) {
+          NavigationService.jumpToScreen(
+            context: context,
+            routeName: MapScreen.routeName,
+          );
+        }
+      });
     });
   }
 
