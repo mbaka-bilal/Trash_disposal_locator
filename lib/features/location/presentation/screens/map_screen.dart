@@ -2,7 +2,7 @@
 Created by: Mbaka bilal <mbakabilal.t@gmail.com>
 Created on: 23,June,2025
 Updated by: Mbaka bilal <mbakabilal.t@gmail.com>
-Updated on: 30,June,2025
+Updated on: 01,July,2025
 Description: Map screen
 */
 
@@ -14,6 +14,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:myapp/core/extensions/integer_extensions.dart';
 
 import '../../../../core/constants/strings.dart';
+import '../../../../core/helpers/dialog_helpers.dart';
 import '../../../../core/helpers/helpers.dart';
 import '../../../../core/helpers/map_helpers.dart';
 import '../../../../core/styling/colors.dart';
@@ -24,6 +25,7 @@ import '../../../../view_models.dart';
 import '../../../widgets/app_text_field.dart';
 import '../../../widgets/media/image_view.dart';
 import '../../data/models/trash_disposal_locations_model.dart';
+import '../widgets/disposal_info.dart';
 import '../widgets/map_zoom._button.dart';
 
 class MapScreen extends ConsumerStatefulWidget {
@@ -47,12 +49,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await ref.read(locationViewModel.notifier).requestPermission();
 
-      ref.read(locationViewModel.notifier).getCurrentLocation((
-        double latitude,
-        double longitude,
-      ) {
-        MapHelpers.moveCameraToLocation(_mapController, latitude, longitude);
-      });
+      // ref.read(locationViewModel.notifier).getCurrentLocation((
+      //   double latitude,
+      //   double longitude,
+      // ) {
+      //   MapHelpers.moveCameraToLocation(_mapController, latitude, longitude);
+      // });
     });
   }
 
@@ -144,10 +146,18 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     ...trashLocations.map(
                       (e) => Marker(
                         point: LatLng(e.location!.lat!, e.location!.lng!),
-                        child: ImageView(
-                          image: AppImages.garbage,
-                          width: 50,
-                          height: 50,
+                        child: GestureDetector(
+                          onTap: () {
+                            DialogHelpers.showAppDialog(
+                              context: context,
+                              child: DisposalInfo(disposalLocation: e),
+                            );
+                          },
+                          child: ImageView(
+                            image: AppImages.garbage,
+                            width: 50,
+                            height: 50,
+                          ),
                         ),
                       ),
                     ),

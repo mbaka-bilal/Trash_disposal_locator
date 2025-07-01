@@ -82,7 +82,7 @@ class LocationService {
     }
   }
 
-  double distanceInKm({
+  static double distanceInKm({
     required double sourceLatitude,
     required double sourceLongitude,
     required double destinationLatitude,

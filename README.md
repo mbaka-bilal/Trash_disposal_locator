@@ -4,5 +4,7 @@
 
 <a href="https://www.flaticon.com/free-icons/dustbin" title="dustbin icons">Dustbin icons created by Chattapat - Flaticon</a>
 
+<a href="https://www.flaticon.com/free-stickers/rubbish" title="rubbish stickers">Rubbish stickers created by Stickers - Flaticon</a>
+
 
 
