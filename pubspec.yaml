@@ -49,6 +49,7 @@ dependencies:
   fluttertoast: ^8.2.12
   flutter_svg: ^2.2.0
   logger: ^2.6.0
+  pretty_dio_logger: ^1.4.0
 
   # Internationalization dependencies
   intl: ^0.20.2
@@ -59,6 +60,7 @@ dependencies:
   # Map dependencies
   flutter_map: ^8.1.1
   flutter_map_cancellable_tile_provider: ^3.1.0
+  google_polyline_algorithm: ^3.1.0
 
   #location dependencies
   geolocator: ^14.0.1

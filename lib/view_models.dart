@@ -4,6 +4,7 @@ import 'package:riverpod/riverpod.dart';
 
 import 'core/services/location_service.dart';
 import 'features/location/domain/repositories/trash_disposal_repository_impl.dart';
+import 'features/location/viewmodels/directions_viewmodel.dart';
 import 'features/location/viewmodels/location_viewmodel.dart';
 import 'features/location/viewmodels/trash_locations_viewmodel.dart';
 
@@ -16,6 +17,15 @@ final trashDisposalLocationsViewModel =
       TrashDisposalLocationsState
     >(
       () => TrashDisposalLocationsViewmodel(
+        trashLocationsUsecase: TrashLocationsUsecase(
+          trashDisposalRepository: TrashDisposalRepositoryImpl(),
+        ),
+      ),
+    );
+
+final directionsViewModel =
+    NotifierProvider<DirectionsViewmodel, DirectionsState>(
+      () => DirectionsViewmodel(
         trashLocationsUsecase: TrashLocationsUsecase(
           trashDisposalRepository: TrashDisposalRepositoryImpl(),
         ),

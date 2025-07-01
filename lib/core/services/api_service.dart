@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../constants/constants.dart';
 import '../errors/exception_handler.dart';
@@ -12,17 +13,24 @@ class ApiService {
     _dio.options.receiveTimeout = const Duration(seconds: 20);
     _dio.options.headers = {
       'Content-Type': 'application/json',
-      'Accept': 'application/json', 
+      'Accept': 'application/json',
     };
 
     //TODO: add interceptors
-    _dio.interceptors.add(
+    _dio.interceptors.addAll([
+      PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseHeader: true,
+        responseBody: true,
+        error: true,
+      ),
       InterceptorsWrapper(
         onRequest: (options, handler) {
           return handler.next(options);
         },
       ),
-    );
+    ]);
   }
 
   Dio _dio = Dio();

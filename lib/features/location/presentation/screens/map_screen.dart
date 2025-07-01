@@ -16,7 +16,6 @@ import 'package:myapp/core/extensions/integer_extensions.dart';
 import '../../../../core/constants/strings.dart';
 import '../../../../core/helpers/dialog_helpers.dart';
 import '../../../../core/helpers/helpers.dart';
-import '../../../../core/helpers/map_helpers.dart';
 import '../../../../core/styling/colors.dart';
 import '../../../../core/styling/images.dart';
 import '../../../../core/styling/text_style.dart';
@@ -24,7 +23,9 @@ import '../../../../keys.dart';
 import '../../../../view_models.dart';
 import '../../../widgets/app_text_field.dart';
 import '../../../widgets/media/image_view.dart';
+import '../../data/models/directions_model.dart';
 import '../../data/models/trash_disposal_locations_model.dart';
+import '../../domain/entities/location.dart';
 import '../widgets/disposal_info.dart';
 import '../widgets/map_zoom._button.dart';
 
@@ -119,7 +120,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       builder: (context, ref, child) {
         final location = ref.watch(locationViewModel).data;
         final trashLocationsState = ref.watch(trashDisposalLocationsViewModel);
+        final directionsState = ref.watch(directionsViewModel);
         final trashLocations = trashLocationsState.data ?? <DisposalLocation>[];
+        final polylines = List<List<LatLng>>.from(
+          directionsState.data == null
+              ? const []
+              : directionsState.data!.routes.map((e) => e.polyline).toList(),
+        );
 
         return Stack(
           children: [
@@ -147,12 +154,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                       (e) => Marker(
                         point: LatLng(e.location!.lat!, e.location!.lng!),
                         child: GestureDetector(
-                          onTap: () {
-                            DialogHelpers.showAppDialog(
-                              context: context,
-                              child: DisposalInfo(disposalLocation: e),
-                            );
-                          },
+                          onTap: () => _onTapMarker(context, location, e),
                           child: ImageView(
                             image: AppImages.garbage,
                             width: 50,
@@ -162,6 +164,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                       ),
                     ),
                   ],
+                ),
+                PolylineLayer(
+                  polylines: polylines.map((e) => Polyline(points: e)).toList(),
                 ),
                 RichAttributionWidget(
                   attributions: [
@@ -175,7 +180,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 ),
               ],
             ),
-            if (trashLocationsState.isLoading)
+            if (trashLocationsState.isLoading || directionsState.isLoading)
               Align(
                 alignment: Alignment.bottomCenter,
                 child: LinearProgressIndicator(
@@ -185,6 +190,24 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           ],
         );
       },
+    );
+  }
+
+  void _onTapMarker(BuildContext context, Loc? location, DisposalLocation e) {
+    if (location != null) {
+      ref
+          .read(directionsViewModel.notifier)
+          .fetchAndAddDirection(
+            originLng: location.longitude,
+            originLat: location.latitude,
+            destLng: e.location!.lng!,
+            destLat: e.location!.lat!,
+          );
+    }
+
+    DialogHelpers.showAppDialog(
+      context: context,
+      child: DisposalInfo(disposalLocation: e),
     );
   }
 }
