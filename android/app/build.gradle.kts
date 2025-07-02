@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.myapp"
+    namespace = "com.tdl"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
 
@@ -35,6 +35,24 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
+        }
+    }
+
+    flavorDimensions += "app"
+    productFlavors {
+        create("production") {
+            dimension = "app"
+            applicationIdSuffix = ".production"
+        }
+        create("development") {
+            dimension = "app"
+            applicationIdSuffix = ".development"
+            versionNameSuffix = "-development"
+        }
+        create("staging") {
+            dimension = "app"
+            applicationIdSuffix = ".staging"
+            versionNameSuffix = "-staging"
         }
     }
 }

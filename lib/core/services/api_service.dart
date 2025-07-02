@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-import '../constants/constants.dart';
+import '../../app_config.dart';
 import '../errors/exception_handler.dart';
 
 class ApiService {
   ApiService({this.dio, this.baseUrl}) {
     _dio = dio ?? Dio();
 
-    _dio.options.baseUrl = baseUrl ?? AppConstants.devBaseUrl;
+    _dio.options.baseUrl = baseUrl ?? AppConfig.url;
     _dio.options.connectTimeout = const Duration(seconds: 20);
     _dio.options.receiveTimeout = const Duration(seconds: 20);
     _dio.options.headers = {

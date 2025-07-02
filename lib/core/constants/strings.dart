@@ -7,7 +7,7 @@ Description: All strings used in the app
 */
 
 class AppStrings {
-  static const appName = "wastewise";
+  static const appName = "Trash Disposal locator";
   static const search = "Search";
   static const copyAsYouPlease = "Copy as you please";
 
