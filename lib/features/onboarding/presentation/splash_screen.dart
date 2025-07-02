@@ -81,7 +81,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                   textStyle: AppTextStyle(
                     context: context,
                     color: AppColors.white,
-                    fontSize: 30,
+                    fontSize: 13,
                   ).fw900(),
                 ),
                 AppConstants.smallYSpace,

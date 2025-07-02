@@ -8,7 +8,7 @@ Updated on: 26,June,2025
 import '../../../core/extensions/string_extensions.dart';
 
 class AppImages {
-  static final logo = "logo".pngIcon;
+  static final logo = "app_icon_transparent".pngIcon;
   static final garbage = "garbage".pngIcon;
   static final locationGif = "gps_tracker".gif;
   static final locationPermission = "location_permission".lottie;
