@@ -26,9 +26,9 @@ class AppConstants {
 
   static const devBaseUrl = "http://192.168.0.4:5000/api";
   static const stagingBaseUrl =
-      "https://trash-disposal-locator-api-open-source.onrender.com/";
+      "https://trash-disposal-locator-api-open-source.onrender.com/api";
   static const productionBaseUrl =
-      "https://trash-disposal-locator-api-open-source.onrender.com/";
+      "https://trash-disposal-locator-api-open-source.onrender.com/api";
   static const mapBoxDirectionBaseUrl =
       "https://api.mapbox.com/directions/v5/mapbox";
 
