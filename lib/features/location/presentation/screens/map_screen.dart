@@ -6,7 +6,9 @@ Updated on: 01,July,2025
 Description: Map screen
 */
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -141,7 +143,9 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               children: [
                 TileLayer(
                   urlTemplate: mapBoxTileUrl,
-                  tileProvider: CancellableNetworkTileProvider(),
+                  tileProvider: CachedNetworkTileProvider(
+                    cacheManager: DefaultCacheManager(),
+                  ),
                 ),
                 MarkerLayer(
                   markers: [
@@ -209,6 +213,22 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     DialogHelpers.showAppDialog(
       context: context,
       child: DisposalInfo(disposalLocation: e),
+    );
+  }
+}
+
+class CachedNetworkTileProvider extends NetworkTileProvider {
+  final BaseCacheManager cacheManager;
+
+  CachedNetworkTileProvider({required this.cacheManager}) : super();
+
+  @override
+  ImageProvider getImage(TileCoordinates coordinates, dynamic options) {
+    final String tileUrl = getTileUrl(coordinates, options);
+    return CachedNetworkImageProvider(
+      tileUrl,
+      cacheManager: cacheManager,
+      headers: headers,
     );
   }
 }
