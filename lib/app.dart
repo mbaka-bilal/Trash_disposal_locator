@@ -8,7 +8,9 @@ Updated on: 24,June,2025
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'app_config.dart';
 import 'core/constants/strings.dart';
+import 'core/enums/enums.dart';
 import 'core/routes/routes.dart';
 import 'core/styling/theme.dart';
 
@@ -20,6 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ProviderScope(
       child: MaterialApp.router(
+        debugShowCheckedModeBanner: AppConfig.flavor == AppFlavours.development,
         title: AppStrings.appName,
         theme: AppTheme.lightTheme,
         routerConfig: routes,
