@@ -25,9 +25,12 @@ class AppConstants {
   static const restorationScopeId = 'router';
 
   static const devBaseUrl = "http://192.168.0.4:5000/api";
-  static const stagingBaseUrl = "https://tdl-staging.onrender.com/api";
-  static const productionBaseUrl = "https://render.con/api";
-  static const mapBoxDirectionBaseUrl = "https://api.mapbox.com/directions/v5/mapbox";
+  static const stagingBaseUrl =
+      "https://trash-disposal-locator-api-open-source.onrender.com/";
+  static const productionBaseUrl =
+      "https://trash-disposal-locator-api-open-source.onrender.com/";
+  static const mapBoxDirectionBaseUrl =
+      "https://api.mapbox.com/directions/v5/mapbox";
 
   static const trashDisposalLocationsCacheKey = 'trash_disposal_locations';
 }
