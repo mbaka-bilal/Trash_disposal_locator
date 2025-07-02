@@ -15,7 +15,6 @@ import '../../../core/services/navigation_service.dart';
 import '../../../core/styling/colors.dart';
 import '../../../core/styling/images.dart';
 import '../../../core/styling/text_style.dart';
-import '../../../view_models.dart';
 import '../../location/presentation/screens/map_screen.dart';
 import '../../widgets/app_text_field.dart';
 import '../../widgets/copyright.dart';
@@ -36,8 +35,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await ref.read(trashDisposalLocationsViewModel.notifier).fetchLocations();
-
       Future.delayed(const Duration(seconds: 3), () async {
         if (mounted) {
           NavigationService.jumpToScreen(

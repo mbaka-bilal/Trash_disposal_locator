@@ -7,7 +7,8 @@ import '../domain/usecases/trash_locations_usecase.dart';
 
 typedef TrashDisposalLocationsState = BaseState<List<DisposalLocation>>;
 
-class TrashDisposalLocationsViewmodel extends Notifier<TrashDisposalLocationsState> {
+class TrashDisposalLocationsViewmodel
+    extends Notifier<TrashDisposalLocationsState> {
   TrashDisposalLocationsViewmodel({required this.trashLocationsUsecase});
 
   TrashLocationsUsecase trashLocationsUsecase;
@@ -18,7 +19,7 @@ class TrashDisposalLocationsViewmodel extends Notifier<TrashDisposalLocationsSta
       state = locations;
     });
 
-    return  TrashDisposalLocationsState.initial();
+    return TrashDisposalLocationsState.initial();
   }
 
   Future<void> fetchLocations() async {
@@ -28,8 +29,9 @@ class TrashDisposalLocationsViewmodel extends Notifier<TrashDisposalLocationsSta
       state = locations;
     } catch (e) {
       final message = AppExceptionHandler.handleException(e);
-
       state = TrashDisposalLocationsState.error(message);
+      await Future.delayed(const Duration(seconds: 10));
+      await fetchLocations();
     }
   }
 }

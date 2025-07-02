@@ -23,7 +23,6 @@ import '../../../../keys.dart';
 import '../../../../view_models.dart';
 import '../../../widgets/app_text_field.dart';
 import '../../../widgets/media/image_view.dart';
-import '../../data/models/directions_model.dart';
 import '../../data/models/trash_disposal_locations_model.dart';
 import '../../domain/entities/location.dart';
 import '../widgets/disposal_info.dart';
@@ -42,13 +41,15 @@ class MapScreen extends ConsumerStatefulWidget {
 class _MapScreenState extends ConsumerState<MapScreen> {
   final MapController _mapController = MapController();
 
-  bool _moveCameraToLocation = true;
+  // bool _moveCameraToLocation = true;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await ref.read(locationViewModel.notifier).requestPermission();
+
+      await ref.read(trashDisposalLocationsViewModel.notifier).fetchLocations();
 
       // ref.read(locationViewModel.notifier).getCurrentLocation((
       //   double latitude,
@@ -67,11 +68,11 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(locationViewModel, (previous, next) {
-      if (previous?.data?.latitude != next.data?.latitude &&
-          previous?.data?.longitude != next.data?.longitude &&
-          _moveCameraToLocation) {}
-    });
+    // ref.listen(locationViewModel, (previous, next) {
+    //   if (previous?.data?.latitude != next.data?.latitude &&
+    //       previous?.data?.longitude != next.data?.longitude &&
+    //       _moveCameraToLocation) {}
+    // });
 
     return Scaffold(
       body: Stack(
