@@ -9,13 +9,13 @@ A Flutter app to help users locate nearby trash disposal sites, with map integra
 | Home Screen (Static) | App Demo (Animated) |
 |---------------------|---------------------|
 <div style="display: flex; gap: 10px;">
-  <img src="https://github.com/user-attachments/assets/1fc7605e-d4b9-4e37-b673-d49d4bc992bf" alt="Screenshot 1" width="400" height="600" style="padding-right: 20px;/>
+  <img src="https://github.com/user-attachments/assets/1fc7605e-d4b9-4e37-b673-d49d4bc992bf" alt="Screenshot 1" width="400" height="600" style="padding-right: 20px;"/>
   <img src="https://github.com/user-attachments/assets/d8f63018-dfd8-4ea6-ab5d-8d312027a4a4" alt="Screenshot 2" width="400" height="600" />
 </div>
 
 ## WEB screen shots
 <div style="display: flex; gap: 10px;">
-  <img src="https://github.com/user-attachments/assets/50885e8b-3dbf-495c-a607-9cc77e607871" alt="Web Screenshot 1" width="400" height="600" style="padding-right: 20px;/>
+  <img src="https://github.com/user-attachments/assets/50885e8b-3dbf-495c-a607-9cc77e607871" alt="Web Screenshot 1" width="400" height="600" style="padding-right: 20px;"/>
   <img src="https://github.com/user-attachments/assets/aa858f3c-0c97-4220-89eb-833323550e34" alt="Web Screenshot 2" width="400" height="600" />
 </div>
 
